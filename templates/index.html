@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>BlahPunk Journal</h1>
+{% for entry in entries.items %}
+    <div class="entry-card" id="entry-{{ entry.id }}">
+        <h3 class="entry-title">{{ entry.title }}</h3>
+        <div class="entry-meta">
+            {{ entry.created_at.strftime('%B %d, %Y at %H:%M') }}
+            {% if current_user.is_editor %}
+                <a href="{{ url_for('edit_entry', entry_id=entry.id) }}" class="button">Edit</a>
+                <form action="{{ url_for('delete_entry', entry_id=entry.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="button">Delete</button>
+                </form>
+            {% endif %}
+        </div>
+        <div class="entry-content">{{ entry.content|safe }}</div>
+        <div class="entry-viewers">
+            <strong>Viewers:</strong>
+            {% for user in entry.viewers %}
+                {{ user.label }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+{% if entries.has_prev %}
+    <a href="{{ url_for('index', page=entries.prev_num) }}">Previous</a>
+{% endif %}
+{% if entries.has_next %}
+    <a href="{{ url_for('index', page=entries.next_num) }}">Next</a>
+{% endif %}
+{% endblock %}

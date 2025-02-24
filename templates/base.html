@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Production Journal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com;
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com;
+                   img-src 'self' data: https://*;
+                   font-src 'self' https://fonts.gstatic.com;
+                   connect-src 'self'">
+
+    <!-- Quill Full Build from jsDelivr -->
+<!-- In head section -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Crimson+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <button class="menu-toggle">≡</button>
+    <div class="sidebar-overlay"></div>
+
+    <div class="sidebar">
+        <h3>Recent Entries</h3>
+        <ul>
+            {% for entry in recent_entries %}
+            <li>
+                <a href="#entry-{{ entry.id }}">
+                    {% if entry.title.strip() %}
+                        {{ entry.title }}
+                    {% else %}
+                        (No Title)
+                    {% endif %}
+                     - {{ entry.created_at.strftime('%Y-%m-%d %H:%M') }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if entries and entries.pages > 1 %}
+        <div class="sidebar-pagination">
+            {% if entries.has_prev %}
+                <a href="{{ url_for('index', page=entries.prev_num) }}">&lt;</a>
+            {% endif %}
+            <span>Page {{ entries.page }}</span>
+            {% if entries.has_next %}
+                <a href="{{ url_for('index', page=entries.next_num) }}">&gt;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="main-content">
+        <header>
+            {% if current_user.is_authenticated %}
+                Logged in as {{ current_user.label }}
+            | <a href="{{ url_for('index') }}">Home</a>
+            | <a href="{{ url_for('logout') }}">Logout</a>
+                {% if current_user.is_editor %}
+                    | <a href="{{ url_for('add_entry') }}">New Entry</a>
+                    | <a href="{{ url_for('manage_pins') }}">Manage PINs</a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </header>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+        // Mobile Menu Functionality
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            menuToggle.classList.remove('active');
+            overlay.style.display = 'none';
+        });
+
+        // Close menu when clicking sidebar links on mobile
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    overlay.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

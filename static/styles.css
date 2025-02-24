@@ -1,0 +1,237 @@
+/* Import a classic serif font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+/* Global Body Styles */
+body {
+    background: #f4f1e8;
+    color: #3e3e3e;
+    margin: 0;
+    font-family: 'Crimson Text', serif;
+    line-height: 1.6;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 250px;
+    background: #fffaf0;
+    border: 1px solid #d2b48c;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(210, 180, 140, 0.5);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar h3 {
+    color: #5a3a22;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    color: #5a3a22;
+    text-decoration: none;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: #7a5c3c;
+    text-decoration: underline;
+}
+
+/* Main Content Styles */
+.main-content {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Entry Card Styles */
+.entry-card {
+    background: #fffaf0;
+    border: 1px solid #d2b48c;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(210, 180, 140, 0.5);
+    transition: background-color 0.3s ease;
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+}
+
+.entry-card:hover {
+    background-color: #f4f1e8;
+}
+
+.entry-title {
+    margin: 5px 0;
+    font-size: 1.2em;
+    color: #5a3a22;
+    font-weight: 600;
+    font-style: italic;
+    border-bottom: 2px solid #d2b48c;
+    padding-bottom: 0.5rem;
+}
+
+.entry-meta {
+    color: #7a5c3c;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    text-align: right;
+    font-style: italic;
+}
+
+/* Button Styles */
+button, .button {
+    cursor: pointer;
+    background: #d2b48c;
+    border: 2px solid #5a3a22;
+    color: #5a3a22;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:hover, .button:hover {
+    background: #5a3a22;
+    color: #fffaf0;
+    box-shadow: 0 0 10px rgba(210, 180, 140, 0.5);
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+textarea {
+    background: #fffaf0;
+    border: 1px solid #d2b48c;
+    padding: 0.5rem;
+    border-radius: 3px;
+    font-family: 'Crimson Text', serif;
+}
+
+/* Mobile Menu Styles */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1001;
+    background: #d2b48c;
+    border: 2px solid #5a3a22;
+    color: #5a3a22;
+    padding: 8px 12px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle.active {
+    transform: rotate(90deg);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+        transform: translateX(100%);
+        overflow-y: auto;
+        box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+        right: 0;
+    }
+
+    .main-content {
+        margin-top: 60px;
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    .sidebar.active + .sidebar-overlay {
+        display: block;
+    }
+}
+
+/* Pagination Styles */
+.sidebar-pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-pagination a {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: #5a3a22;
+    padding: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.sidebar-pagination a:hover {
+    color: #7a5c3c;
+}
+
+/* Misc Styles */
+.flash {
+    background: #fffaf0;
+    border: 1px solid #d2b48c;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 3px;
+}
+
+#viewersList .viewer {
+    background: #fffaf0;
+    padding: 0.3rem 0.6rem;
+    margin: 0.3rem;
+    border-radius: 3px;
+    display: inline-block;
+    border: 1px solid #d2b48c;
+}

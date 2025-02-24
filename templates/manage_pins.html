@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Manage PINs</h2>
+<form method="post">
+    <h3>Add New PIN</h3>
+    <input type="hidden" name="action" value="add">
+    <input type="text" name="label" placeholder="Label" required>
+    <input type="password" name="pin" placeholder="PIN" required>
+    <button type="submit">Add</button>
+</form>
+
+<h3>Existing PINs</h3>
+{% for pin in pins %}
+    <form method="post" style="margin: 10px 0;">
+        <input type="hidden" name="action" value="edit">
+        <input type="hidden" name="user_id" value="{{ pin.id }}">
+        <input type="text" name="label" value="{{ pin.label }}" required>
+        <input type="password" name="pin" placeholder="New PIN">
+        <button type="submit">Update</button>
+        {% if pin.id != current_user.id and pin.id != 0 %}
+            <button type="submit" formaction="{{ url_for('manage_pins') }}" 
+                onclick="return confirm('Delete this PIN?')">Delete</button>
+        {% endif %}
+    </form>
+{% endfor %}
+{% endblock %}
